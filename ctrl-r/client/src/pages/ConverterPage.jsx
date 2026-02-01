@@ -1,14 +1,16 @@
 // File: src/pages/ConverterPage.jsx
 import { useRef, useState, useMemo } from "react";
 import "./ConverterPage.css";
-import { acceptedfiletypes_dictionary } from './../backend/dict.js'
+import { acceptedfiletypes_dictionary } from './../backend/dict.js';
+import{File_Labels} from './../backend/filedescs.js';
+import{File_Desc} from './../backend/filedescs.js';
 
 import logo from "../assets/ctrlr-logo.png";
 import dropArt from "../assets/dragdrop-card.png";
 
 const EXT_LABELS = {
   wpd: "WordPerfect (.wpd)",
-  wp: "WordPerfect (.wp)",
+ // wp: "WordPerfect (.wp)",
   xls: "Microsoft Excel (.xls)",
   ods: "OpenDocument Spreadsheet (.ods)",
   dwg: "AutoCAD (.dwg)",
@@ -18,7 +20,7 @@ const EXT_LABELS = {
 
 const EXT_DESCRIPTIONS = {
   wpd: "A WordPerfect document — once popular in offices and universities before modern formats became standard.",
-  wp: "A WordPerfect document — an older word processing format used widely before DOC/DOCX took over.",
+ // wp: "A WordPerfect document — an older word processing format used widely before DOC/DOCX took over.",
   xls: "An older Excel spreadsheet format — commonly used before .xlsx became the default.",
   ods: "An OpenDocument spreadsheet — a standards-based format used by LibreOffice and similar tools.",
   dwg: "An AutoCAD drawing — a common CAD format used in architecture and engineering workflows.",
@@ -26,15 +28,7 @@ const EXT_DESCRIPTIONS = {
   docx: "A modern Microsoft Word document — widely supported across most word processors today.",
 };
 
-const EXT_OUTPUTS = {
-  wpd: ["pdf", "docx", "txt"],
-  wp: ["pdf", "docx", "txt"],
-  xls: ["pdf", "xlsx", "csv"],
-  ods: ["pdf", "xlsx", "csv"],
-  dwg: ["pdf", "png", "jpg"],
-  doc: ["pdf", "docx", "txt"],
-  docx: ["pdf", "txt"],
-};
+
 
 function formatBytes(bytes) {
   if (!Number.isFinite(bytes)) return "—";
@@ -74,7 +68,7 @@ export default function ConverterPage() {
   const detectedType = useMemo(() => {
     if (!file) return "";
     return (
-      EXT_LABELS[fileExt] ||
+      File_Labels[fileExt] ||
       (fileExt ? `${fileExt.toUpperCase()} file` : "Unknown file")
     );
   }, [file, fileExt]);
@@ -82,7 +76,7 @@ export default function ConverterPage() {
   const typeDescription = useMemo(() => {
     if (!file) return "";
     return (
-      EXT_DESCRIPTIONS[fileExt] ||
+       File_Desc[fileExt] ||
       "A legacy file format — often difficult to open with modern software."
     );
   }, [file, fileExt]);

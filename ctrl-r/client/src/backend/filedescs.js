@@ -1,5 +1,4 @@
 export const File_Labels = {
-    ////Aeris
    bmp:"Bitmap(.bmp)",
     csv:"Comma Separated Values(.csv)",
     djvu:"DjVu[Deja Vu](.djvu)",
@@ -8,27 +7,17 @@ export const File_Labels = {
     dot:"Mircosoft Word (.dot)",
     dotx:"Mircosoft Word(.dotx)",
     dwf:"AutoDesk-Design Web Format(.dwf)",
-    dwfx:"AtuoDesk-Design Web Format(.dwf)",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ///widad
+    dwfx:"AutoDesk-Design Web Format(.dwf)",
+    dwg:"CAD:Drawing(.dwg)",
+    dxf:"AutoDesk:Drawing Exchange Format(.dxf)",
+    eml:"Email(.eml)",
+    eps:"Encapsulated PostScript(.eps)",
+    epub:"Electronic Publication(.epub)",
+    gif:"Graphics Interchange Format(.gif)",
+    heic:"High Efficiency Image Container(.heic)",
+    heif:"High Efficiency Image File Format(.heif)",
+    htm:"Hypertext Markup Language(.htm)",
+    ico:"Image container in Microsoft Windows(.ico)",
     jfif: "JPEG File Interchange Format (.jfif)",
     jpg: "JPEG Image (.jpg)",
     jpeg: "JPEG Image (.jpeg)",
@@ -49,8 +38,6 @@ export const File_Labels = {
     potx: "PowerPoint Template (.potx)",
     pps: "PowerPoint Slideshow (.pps)",
     ppsx: "PowerPoint Slideshow (.ppsx)",
-
-    //manjari
     ppt: "PowerPoint Presentation (.ppt)",
     pptx: "PowerPoint Presentation (.pptx)",
     prn: "Printer File (.prn)",
@@ -73,7 +60,6 @@ export const File_Labels = {
 }
 
 export const File_Desc={
-      ////Aeris
     bmp:"An image format devoloped by Microsoft-format used specfically for Windows applications.",
     csv:"A plain text file that stores structured tabular data - very similar to Excel files. ",
     djvu:"A computer file format that is used specfically for scanned documents.",
@@ -83,27 +69,17 @@ export const File_Desc={
     dotx:"A moderm Microsoft Word template document- used a blueprint for doc and docx files.",
     dwf:" A secure, highly compressed file format developed by Autodesk for efficient sharing, viewing, and printing of 2D/3D CAD design data.",
     dwfx:"Autodesk Design Web Format (DWF) file that uses Microsoft's XML Paper Specification (XPS), allowing 2D/3D design data to be shared, viewed, and printed easily across different platforms.",
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ///widad
+    dwg:"A proprietary binary file format used for storing 2D and 3D design data, metadata, and vector graphics, acting as the native file format for AutoCAD and other CAD applications.",
+    dxf:"An open-source vector file format created by Autodesk for sharing 2D and 3D design data between different CAD (Computer-Aided Design) applications.",
+    eml:"A standard, plain-text file format used to store individual email messages, including headers (sender, recipient, date, subject) and body content (HTML or plain text), along with attachments.",
+    eps:"a standard,vector-based graphic file format used primarily for high-resolution printing, vector illustrations, and logos.",
+    epub:"The standard format for digital books.",
+    gif:"A bitmap image format from 1987 known for short, looping animations and simple graphics.It is quite standard in modern times.",
+    heic:"The default image format for newer Apple Devices- storing high-quality images in roughly half the storage space of JPEGs.",
+    hief:"A modern container for single images or sequences, offering better compression than JPEG while maintaining quality.",
+    htm:"A plain text document containing code that web browsers interpret to display web pages, structuring text, images, links, and other media.",
+    html:"Standard everywhere, it is a plain text document that contains code which web browsers use to display webpages.",
+    ico:" a specialized image container used by Microsoft Windows to store one or more small, multi-resolution, and multi-color-dSepth icons.",
     jfif: "An image file format based on the JPEG standard, commonly used for storing compressed photographic images.",
     jpg: "A widely used compressed image format ideal for photographs and web images.",
     jpeg: "A standard compressed image format commonly used for digital photos and online images.",
