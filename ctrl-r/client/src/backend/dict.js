@@ -21,6 +21,7 @@ export const acceptedfiletypes_dictionary = {
     "htm":["docx","jpg","md","odt","pdf","png","txt","xls","xlsx"],
     "html":["xls","xlsx","pdf","md"],
     "ico":["jpg","pdf","png","svg","webp"],
+    //widad starts here
     "jfif":["pdf"],
     "jpg":["gif","jxl","pdf","png","pnm","svg","tiff","webp"],
     "jpeg":["jpg","jxl","pdf","svg","tiff","webp"],
@@ -41,6 +42,7 @@ export const acceptedfiletypes_dictionary = {
     "potx":["jpg","pdf","png","pptx","tiff","webp"],
     "pps":["jpg","pdf","png","tiff","webp"],
     "ppsx":["jpg","pdf","png","pptx","tiff","webp"],
+    //manjari starts here
     "ppt":["pptx","jpg","pdf","png","tiff","webp"],
     "pptx":["jpg","pdf","png","tiff","webp"],
     "prn":["jpg","pdf","png","tiff"],
