@@ -29,8 +29,12 @@ After pressing convert, the user is able to see a preview of the new file, and d
 
 ---
 
-## How We Built It
-Our tech stack is CSS and React for the front end, and Node.js and Express.js for the backend. We deployed on netlify, and the back end is running on render.
+## Built With
+- React
+- CSS
+- Node.js
+- Express.js
+- Netlify + render (for deployment)
 
 ---
 
@@ -49,3 +53,36 @@ Next, Ctrl-R scales in 2 ways:
 ---
 
 ## How To Run Locally
+### 1) Install
+```bash
+npm install
+cd client
+npm install
+cd ../server
+npm install
+cd ..
+```
+
+### 2) Add your API keys and Gemini model
+Create a `.env` file in the project root:
+```bash
+CONVERTAPI_SECRET="YOUR_KEY_HERE"
+GEMINI_API_KEY="YOUR_KEY_HERE"
+GEMINI_MODEL="YOUR_KEY_HERE"
+```
+
+> Don’t commit `.env` to GitHub.
+
+### 3) Start the app
+**Recommended (frontend + functions):**
+```bash
+npm run dev
+```
+
+---
+
+## Team
+- Aeris Chan
+- Ellie Neufeld
+- Manjari Prasad
+- Widad Modak
