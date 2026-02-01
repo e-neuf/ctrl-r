@@ -8,45 +8,81 @@ import dropArt from "../assets/dragdrop-card.png";
 const EXT_LABELS = {
   wpd: "WordPerfect (.wpd)",
   wp: "WordPerfect (.wp)",
-  wk1: "Lotus 1-2-3 (.wk1)",
-  wk3: "Lotus 1-2-3 (.wk3)",
-  123: "Lotus 1-2-3 (.123)",
+  xls: "Microsoft Excel (.xls)",
+  ods: "OpenDocument Spreadsheet (.ods)",
   dwg: "AutoCAD (.dwg)",
   doc: "Microsoft Word (.doc)",
   docx: "Microsoft Word (.docx)",
 };
 
+const EXT_DESCRIPTIONS = {
+  wpd: "A WordPerfect document — once popular in offices and universities before modern formats became standard.",
+  wp: "A WordPerfect document — an older word processing format used widely before DOC/DOCX took over.",
+  xls: "An older Excel spreadsheet format — commonly used before .xlsx became the default.",
+  ods: "An OpenDocument spreadsheet — a standards-based format used by LibreOffice and similar tools.",
+  dwg: "An AutoCAD drawing — a common CAD format used in architecture and engineering workflows.",
+  doc: "A legacy Microsoft Word document — widely used before .docx became standard.",
+  docx: "A modern Microsoft Word document — widely supported across most word processors today.",
+};
+
 const EXT_OUTPUTS = {
   wpd: ["pdf", "docx", "txt"],
   wp: ["pdf", "docx", "txt"],
-  wk1: ["pdf", "xlsx", "csv"],
-  wk3: ["pdf", "xlsx", "csv"],
-  123: ["pdf", "xlsx", "csv"],
+  xls: ["pdf", "xlsx", "csv"],
+  ods: ["pdf", "xlsx", "csv"],
   dwg: ["pdf", "png", "jpg"],
   doc: ["pdf", "docx", "txt"],
   docx: ["pdf", "txt"],
 };
+
+function formatBytes(bytes) {
+  if (!Number.isFinite(bytes)) return "—";
+  if (bytes < 1024) return `${bytes} B`;
+  const kb = bytes / 1024;
+  if (kb < 1024) return `${kb.toFixed(1)} KB`;
+  const mb = kb / 1024;
+  return `${mb.toFixed(1)} MB`;
+}
+
+function createdLabelFromLastModified(lastModified) {
+  if (!lastModified) return "—";
+  const d = new Date(lastModified);
+  const year = d.getFullYear();
+  if (year <= 1999) return "Created in the late 1990s";
+  if (year <= 2009) return "Created in the 2000s";
+  if (year <= 2019) return "Created in the 2010s";
+  return `Created in ${year}`;
+}
 
 export default function ConverterPage() {
   const inputRef = useRef(null);
   const [file, setFile] = useState(null);
   const [dragOver, setDragOver] = useState(false);
 
-  // slide + show right card
-  const [step, setStep] = useState("upload"); // "upload" | "convert"
+  // "upload" | "convert"
+  const [step, setStep] = useState("upload");
 
-  // dropdown selection
   const [targetFormat, setTargetFormat] = useState("pdf");
 
   const fileExt = useMemo(() => {
     if (!file?.name) return "";
-    const ext = file.name.split(".").pop()?.toLowerCase() || "";
-    return ext;
+    return file.name.split(".").pop()?.toLowerCase() || "";
   }, [file]);
 
   const detectedType = useMemo(() => {
     if (!file) return "";
-    return EXT_LABELS[fileExt] || (fileExt ? `${fileExt.toUpperCase()} file` : "Unknown file");
+    return (
+      EXT_LABELS[fileExt] ||
+      (fileExt ? `${fileExt.toUpperCase()} file` : "Unknown file")
+    );
+  }, [file, fileExt]);
+
+  const typeDescription = useMemo(() => {
+    if (!file) return "";
+    return (
+      EXT_DESCRIPTIONS[fileExt] ||
+      "A legacy file format — often difficult to open with modern software."
+    );
   }, [file, fileExt]);
 
   const availableOutputs = useMemo(() => {
@@ -59,7 +95,7 @@ export default function ConverterPage() {
     const picked = files[0];
     setFile(picked);
 
-    // reset to upload view whenever they pick a new file
+    // always return to upload view when picking a new file
     setStep("upload");
 
     const ext = picked.name.split(".").pop()?.toLowerCase() || "";
@@ -90,13 +126,11 @@ export default function ConverterPage() {
     alert("Sample file flow coming soon ✨");
   };
 
-  // clicking this shows the right card
   const onConvert = () => {
     if (!file) return;
     setStep("convert");
   };
 
-  // placeholder “start conversion”
   const onStartConversion = () => {
     if (!file) return;
     alert(`Converting ${file.name} → ${targetFormat.toUpperCase()} (demo)...`);
@@ -140,9 +174,12 @@ export default function ConverterPage() {
 
       <div className="ctrlr-shell">
         <main className="ctrlr-center">
-          {/* stage becomes 2-column only after convert */}
-          <div className={"ctrlr-stage2 " + (step === "convert" ? "ctrlr-stage2--convert" : "")}>
-            {/* LEFT CARD (existing) */}
+          <div
+            className={
+              "ctrlr-stage2 " + (step === "convert" ? "ctrlr-stage2--convert" : "")
+            }
+          >
+            {/* LEFT CARD */}
             <section
               className={
                 "ctrlr-dropCard ctrlr-leftCard " +
@@ -164,7 +201,7 @@ export default function ConverterPage() {
                 </h1>
 
                 <p className="ctrlr-subtitle">
-                  {file ? "Next step: conversion." : "Your files — converted  in seconds."}
+                  {file ? "Next step: conversion." : "Your files — converted in seconds."}
                 </p>
 
                 {file ? (
@@ -184,7 +221,7 @@ export default function ConverterPage() {
                   ref={inputRef}
                   type="file"
                   className="ctrlr-hiddenInput"
-                  accept=".wpd,.wp,.wk1,.wk3,.123,.dwg,.doc,.docx"
+                  accept=".wpd,.wp,.xls,.ods,.dwg,.doc,.docx"
                   onChange={onInputChange}
                 />
 
@@ -205,7 +242,7 @@ export default function ConverterPage() {
                     </span>
                   ) : (
                     <span>
-                      Supported <b>.wp</b>, <b>.123</b>, <b>.dwg</b> • Privacy
+                      Supported <b>.wpd</b>, <b>.xls</b>, <b>.ods</b>, <b>.dwg</b> • Privacy
                       unlimited.
                     </span>
                   )}
@@ -213,60 +250,118 @@ export default function ConverterPage() {
               </div>
             </section>
 
-            {/* RIGHT CARD (appears only after click) */}
-            <section className="ctrlr-dropCard ctrlr-rightCard" aria-live="polite">
-              <div className="ctrlr-dropInset">
-                <h2 className="ctrlr-title ctrlr-titleSmall">Conversion options</h2>
+            {/* RIGHT SIDE: ONLY show after "Ready To Convert" */}
+            {step === "convert" && (
+              <aside className="ctrlr-rightStack" aria-live="polite">
+                {/* Conversion options */}
+                <section className="ctrlr-dropCard ctrlr-rightCard">
+                  <div className="ctrlr-dropInset">
+                    <h2 className="ctrlr-title ctrlr-titleSmall">Conversion options</h2>
 
-                <div className="ctrlr-formRow">
-                  <div className="ctrlr-formLabel">Detected file type</div>
-                  <div className="ctrlr-formValue">{file ? detectedType : "—"}</div>
-                </div>
+                    {/* Detected + Convert-to on the same line */}
+                    <div className="ctrlr-inlineRow">
+                      <div className="ctrlr-field">
+                        <div className="ctrlr-formLabel">Detected</div>
+                        <div
+                          className={
+                            "ctrlr-formValue " + (file ? "ctrlr-pillValue" : "")
+                          }
+                        >
+                          {file ? detectedType : "—"}
+                        </div>
+                      </div>
 
-                <div className="ctrlr-formRow">
-                  <label className="ctrlr-formLabel" htmlFor="targetFormat">
-                    Convert to
-                  </label>
+                      <div className="ctrlr-field">
+                        <label className="ctrlr-formLabel" htmlFor="targetFormat">
+                          Convert to
+                        </label>
 
-                  <select
-                    id="targetFormat"
-                    className="ctrlr-select"
-                    value={targetFormat}
-                    onChange={(e) => setTargetFormat(e.target.value)}
-                    disabled={!file}
-                  >
-                    {availableOutputs.map((fmt) => (
-                      <option key={fmt} value={fmt}>
-                        {fmt.toUpperCase()}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                        <select
+                          id="targetFormat"
+                          className="ctrlr-select"
+                          value={targetFormat}
+                          onChange={(e) => setTargetFormat(e.target.value)}
+                          disabled={!file}
+                        >
+                          {availableOutputs.map((fmt) => (
+                            <option key={fmt} value={fmt}>
+                              {fmt.toUpperCase()}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
 
-                <div className="ctrlr-actions">
-                  <button
-                    type="button"
-                    className="ctrlr-secondaryBtn"
-                    onClick={() => setStep("upload")}
-                  >
-                    ← Back
-                  </button>
+                    <div className="ctrlr-actions">
+                      <button
+                        type="button"
+                        className="ctrlr-secondaryBtn"
+                        onClick={() => setStep("upload")}
+                      >
+                        ← Back
+                      </button>
 
-                  <button
-                    type="button"
-                    className="ctrlr-primaryBtn"
-                    onClick={onStartConversion}
-                    disabled={!file}
-                  >
-                    Start conversion <span aria-hidden="true">➜</span>
-                  </button>
-                </div>
+                      <button
+                        type="button"
+                        className="ctrlr-primaryBtn"
+                        onClick={onStartConversion}
+                        disabled={!file}
+                      >
+                        Start conversion <span aria-hidden="true">➜</span>
+                      </button>
+                    </div>
 
-                <p className="ctrlr-hint">
-                  Pick an output format, then start conversion.
-                </p>
-              </div>
-            </section>
+                    <p className="ctrlr-hint">Pick an output format, then start conversion.</p>
+                  </div>
+                </section>
+
+                {/* About this file */}
+                <section className="ctrlr-dropCard ctrlr-infoCard">
+                  <div className="ctrlr-infoInset">
+                    <div className="ctrlr-infoHeader">
+                      <span className="ctrlr-infoIcon" aria-hidden="true">
+                        <img className="ctrlr-infoLogo" src={logo} alt="" />
+                      </span>
+                      <h3 className="ctrlr-infoTitle">About this file</h3>
+                    </div>
+
+                    <div className="ctrlr-infoDivider" />
+
+                    <div className="ctrlr-infoBlock">
+                      <div className="ctrlr-infoLabel">File name</div>
+                      <div className="ctrlr-infoPill">{file ? file.name : "—"}</div>
+                    </div>
+
+                    <div className="ctrlr-infoDivider" />
+
+                    <div className="ctrlr-infoBlock">
+                      <div className="ctrlr-infoLabel">File type</div>
+                      <div className="ctrlr-infoText">
+                        {file ? typeDescription : "—"}
+                      </div>
+                    </div>
+
+                    <div className="ctrlr-infoDivider" />
+
+                    <div className="ctrlr-infoBlock ctrlr-infoTwoCol">
+                      <div>
+                        <div className="ctrlr-infoLabel">File size</div>
+                        <div className="ctrlr-infoStrong">
+                          {file ? formatBytes(file.size) : "—"}
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="ctrlr-infoLabel">Created</div>
+                        <div className="ctrlr-infoStrong">
+                          {file ? createdLabelFromLastModified(file.lastModified) : "—"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </aside>
+            )}
           </div>
 
           <p className="ctrlr-tagline">

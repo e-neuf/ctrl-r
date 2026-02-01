@@ -164,7 +164,6 @@
 }
 
 /* ---------- Cards ---------- */
-/* IMPORTANT: width is flexible so convert-mode max-width can shrink */
 .ctrlr-dropCard {
   width: 100%;
   max-width: 1100px;
@@ -279,15 +278,13 @@
 }
 
 /* ---------------------------------- */
-/* TWO-CARD LAYOUT (convert mode)     */
-/* Starts centered (ONE card), then   */
-/* shifts left + shows RIGHT card     */
+/* TWO-COLUMN LAYOUT (convert mode)   */
 /* ---------------------------------- */
 
 .ctrlr-stage2 {
   width: 100%;
   display: flex;
-  justify-content: center;     /* ✅ centered initially */
+  justify-content: center;
   align-items: flex-start;
   gap: 28px;
   transition: padding 420ms ease, justify-content 420ms ease;
@@ -299,24 +296,7 @@
   transition: max-width 420ms ease;
 }
 
-/* right card base (convert-only) */
-.ctrlr-rightCard {
-  width: 100%;
-  max-width: 520px;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateX(20px);
-  transition: opacity 420ms ease, transform 420ms ease;
-}
-
-/* ✅ KEY FIX:
-   In UPLOAD mode, remove right card from layout completely
-   so the left card is perfectly centered. */
-.ctrlr-stage2:not(.ctrlr-stage2--convert) .ctrlr-rightCard {
-  display: none;
-}
-
-/* Convert mode: move layout left and reveal right card */
+/* Convert mode: move layout left */
 .ctrlr-stage2--convert {
   justify-content: flex-start;
   padding-left: 90px;
@@ -327,23 +307,43 @@
   max-width: 720px;
 }
 
-/* Show right card in convert mode */
-.ctrlr-stage2--convert .ctrlr-rightCard {
-  display: block;
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateX(0);
-}
-
 /* Optional: tighten inset padding in convert mode */
-.ctrlr-stage2--convert .ctrlr-leftCard .ctrlr-dropInset,
-.ctrlr-stage2--convert .ctrlr-rightCard .ctrlr-dropInset {
+.ctrlr-stage2--convert .ctrlr-leftCard .ctrlr-dropInset {
   padding-left: 48px;
   padding-right: 48px;
 }
 
+/* Make art smaller in convert mode so left doesn't feel huge */
+.ctrlr-stage2--convert .ctrlr-leftCard .ctrlr-dropArt {
+  width: 360px;
+}
+
 /* ---------------------------------- */
-/* RIGHT CARD CONTENT STYLES          */
+/* RIGHT SIDE STACK (convert only)    */
+/* ---------------------------------- */
+
+.ctrlr-rightStack {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Right card: let it size naturally (not forced tall) */
+.ctrlr-rightCard,
+.ctrlr-infoCard {
+  min-height: unset;
+}
+
+/* Slightly tighter inset for right cards */
+.ctrlr-rightCard .ctrlr-dropInset {
+  padding-top: 44px;
+  padding-bottom: 36px;
+}
+
+/* ---------------------------------- */
+/* CONVERSION CARD CONTENT STYLES     */
 /* ---------------------------------- */
 
 .ctrlr-titleSmall {
@@ -351,11 +351,18 @@
   margin-bottom: 18px;
 }
 
-.ctrlr-formRow {
+.ctrlr-inlineRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 14px 0 10px;
+  align-items: end;
+}
+
+.ctrlr-field {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin: 16px 0;
 }
 
 .ctrlr-formLabel {
@@ -365,6 +372,17 @@
 
 .ctrlr-formValue {
   font-weight: 700;
+  color: rgba(47, 52, 55, 0.86);
+}
+
+.ctrlr-pillValue {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: rgba(227,234,220,0.55);
+  border: 1px solid rgba(94,107,79,0.20);
+  font-weight: 750;
 }
 
 .ctrlr-select {
@@ -392,10 +410,16 @@
 
 .ctrlr-primaryBtn {
   flex: 1;
+  border: 1px solid rgba(94, 107, 79, 0.30);
+  background: linear-gradient(180deg, rgba(127,143,106,0.88), rgba(94,107,79,0.80));
+  color: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.10);
 }
 
 .ctrlr-secondaryBtn {
   background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0,0,0,0.08);
+  color: rgba(47, 52, 55, 0.78);
 }
 
 .ctrlr-primaryBtn:disabled,
@@ -407,6 +431,103 @@
 .ctrlr-hint {
   margin-top: 14px;
   opacity: 0.65;
+}
+
+
+.ctrlr-infoCard {
+  padding: 22px;
+}
+
+.ctrlr-infoInset {
+  border-radius: 18px;
+  background: rgba(255,255,255,0.56);
+  border: 1px solid rgba(94,107,79,0.18);
+  box-shadow: 0 18px 48px rgba(0,0,0,0.10);
+  padding: 22px 22px 18px;
+  text-align: left;
+}
+
+.ctrlr-infoHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ctrlr-infoIcon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(227,234,220,0.65);
+  border: 1px solid rgba(94,107,79,0.20);
+}
+
+.ctrlr-infoTitle {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 750;
+  color: rgba(47, 52, 55, 0.86);
+  letter-spacing: -0.3px;
+}
+
+.ctrlr-infoDivider {
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+  margin: 14px 0;
+}
+
+.ctrlr-infoBlock {
+  display: grid;
+  gap: 10px;
+  padding: 2px 0;
+}
+
+.ctrlr-infoLabel {
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  font-weight: 700;
+  color: rgba(47, 52, 55, 0.62);
+  text-transform: none;
+}
+
+.ctrlr-infoPill {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(227,234,220,0.70);
+  border: 1px solid rgba(94,107,79,0.18);
+  color: rgba(47, 52, 55, 0.82);
+  font-weight: 750;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ctrlr-infoText {
+  color: rgba(47, 52, 55, 0.70);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ctrlr-infoTwoCol {
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.ctrlr-infoStrong {
+  font-weight: 800;
+  color: rgba(47, 52, 55, 0.82);
+}
+
+.ctrlr-infoLogo {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  opacity: 0.95;
 }
 
 /* ---------- Responsive tweaks ---------- */
@@ -440,7 +561,7 @@
     width: 180px;
   }
 
-  /* On mobile, stack the cards naturally */
+  /* Stack naturally on mobile */
   .ctrlr-stage2 {
     flex-direction: column;
     align-items: center;
@@ -452,20 +573,20 @@
     padding-left: 0;
   }
 
-  /* On mobile, show right card when converting (and only then) */
-  .ctrlr-stage2:not(.ctrlr-stage2--convert) .ctrlr-rightCard {
-    display: none;
-  }
-
-  .ctrlr-stage2--convert .ctrlr-rightCard {
-    display: block;
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-  }
-
-  .ctrlr-leftCard,
-  .ctrlr-rightCard {
+  .ctrlr-leftCard {
     max-width: 94vw;
   }
+
+  .ctrlr-rightStack {
+    max-width: 94vw;
+  }
+
+  .ctrlr-inlineRow {
+    grid-template-columns: 1fr;
+  }
+
+  .ctrlr-infoTwoCol {
+    grid-template-columns: 1fr;
+  }
+
 }
