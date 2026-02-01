@@ -1,5 +1,5 @@
 // File: src/pages/ConverterPage.jsx
-import { useRef, useState, useMemo } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import "./ConverterPage.css";
 import { acceptedfiletypes_dictionary } from './../backend/dict.js';
 import{File_Labels} from './../backend/filedescs.js';
@@ -33,6 +33,13 @@ export default function ConverterPage() {
   const inputRef = useRef(null);
   const [file, setFile] = useState(null);
   const [dragOver, setDragOver] = useState(false);
+  const [data, setData] = useState(null); // used to test server connection
+
+  // useEffect(() => {
+  //   fetch("/fileConversion/") // The proxy forwards this to localhost:3001/api
+  //     .then((res) => res.json())
+  //     .then((data) => setData(data.message));
+  // }, []);
 
   // "upload" | "convert"
   const [step, setStep] = useState("upload");
@@ -78,6 +85,36 @@ export default function ConverterPage() {
     setTargetFormat(outputs[0]);
   };
 
+  const handleUpload = async () => {
+    if (!file) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    console.log('FORM DATA', formData);
+
+    try {
+      const response = await fetch("/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('File uploaded successfully', result);
+        alert('File uploaded successfully!');
+      } else {
+        console.error('Upload failed:', response.statusText);
+        alert('File upload failed.');
+      }
+    } catch (error) {
+      console.error('Error during upload:', error);
+      alert('Error during upload.');
+    }
+  };
+
   const onBrowse = () => inputRef.current?.click();
   const onInputChange = (e) => onFiles(e.target.files);
 
@@ -103,11 +140,13 @@ export default function ConverterPage() {
 
   const onConvert = () => {
     if (!file) return;
+    handleUpload();
     setStep("convert");
   };
 
   const onStartConversion = () => {
     if (!file) return;
+    handleUpload();
     alert(`Converting ${file.name} → ${targetFormat.toUpperCase()} (demo)...`);
   };
 
@@ -178,6 +217,8 @@ export default function ConverterPage() {
                 <p className="ctrlr-subtitle">
                   {file ? "Next step: conversion." : "Your files — converted in seconds."}
                 </p>
+                {/* testing the server connection */}
+                <p>data: {data}</p>
 
                 {file ? (
                   <button
