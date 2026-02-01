@@ -56,7 +56,6 @@
 .ctrlr-leaf--bl { bottom: -210px; left: -210px; transform: rotate(12deg); }
 .ctrlr-leaf--br { bottom: -210px; right: -210px; transform: rotate(-18deg); }
 
-/* ---------- ✅ Edge-to-edge navbar ---------- */
 .ctrlr-topbar {
   position: relative;
   z-index: 5;
@@ -85,8 +84,8 @@
 }
 
 .ctrlr-logo {
-  width: 40px;              /* bigger logo */
-  height: 40px;
+  width: 70px;
+  height: 70px;
   object-fit: contain;
 }
 
