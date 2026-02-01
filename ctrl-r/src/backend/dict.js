@@ -1,5 +1,5 @@
 
-acceptedfiletypes_dictionary={
+export const acceptedfiletypes_dictionary = {
     //zip might be appllicable to everything but will need to fact check
     "bmp":["jpg","pdf","png","pnm","svg","tiff","webp","zip"],
     "csv":["pdf","xlsx","zip"],
@@ -62,4 +62,4 @@ acceptedfiletypes_dictionary={
     "xlsb":["csv","pdf"],
     "xlsx":["csv","jpg","pdf","png","tiff","webp"],
     "xltx":["pdf"]
-}
+};
