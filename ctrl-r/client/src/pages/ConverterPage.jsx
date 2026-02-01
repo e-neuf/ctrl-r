@@ -636,7 +636,7 @@ export default function ConverterPage() {
                           </p>
                         )}
 
-                        {!!chatMessages.length && (
+                        {!!chatMessages.length && summaryText && (
                           <div className="ctrlr-chatThread">
                             {chatMessages.map((msg, idx) => (
                               <div
@@ -656,23 +656,25 @@ export default function ConverterPage() {
                           </div>
                         )}
 
-                        <form className="ctrlr-chatForm" onSubmit={onChatSubmit}>
-                          <input
-                            type="text"
-                            className="ctrlr-chatInput"
-                            placeholder="Ask a follow‑up question about this file…"
-                            value={chatInput}
-                            onChange={(e) => setChatInput(e.target.value)}
-                            disabled={isChatting || !resultUrl}
-                          />
-                          <button
-                            type="submit"
-                            className="ctrlr-chatSendBtn"
-                            disabled={isChatting || !chatInput.trim() || !resultUrl}
-                          >
-                            {isChatting ? "Asking…" : "Ask"}
-                          </button>
-                        </form>
+                        {summaryText && (
+                          <form className="ctrlr-chatForm" onSubmit={onChatSubmit}>
+                            <input
+                              type="text"
+                              className="ctrlr-chatInput"
+                              placeholder="Ask a follow‑up question about this file…"
+                              value={chatInput}
+                              onChange={(e) => setChatInput(e.target.value)}
+                              disabled={isChatting || !resultUrl}
+                            />
+                            <button
+                              type="submit"
+                              className="ctrlr-chatSendBtn"
+                              disabled={isChatting || !chatInput.trim() || !resultUrl}
+                            >
+                              {isChatting ? "Asking…" : "Ask"}
+                            </button>
+                          </form>
+                        )}
 
                         {chatError && (
                           <p className="ctrlr-summaryError" style={{ marginTop: 8 }}>

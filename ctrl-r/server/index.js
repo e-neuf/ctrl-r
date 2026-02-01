@@ -247,11 +247,13 @@ app.post("/summarize", async (req, res) => {
     const base64Data = fileBuffer.toString("base64");
 
     const prompt =
-      "You are summarizing a document for a non‑expert reader.\n" +
-      "- Write 2–4 short bullet points (each no more than 20 words).\n" +
-      "- Capture only the most important ideas, not minor details.\n" +
-      "- The entire summary must be under 120 words.\n" +
-      "- End with a complete sentence (no trailing '...' or unfinished phrases).";
+      "Summarize the attached document for a non‑expert reader.\n" +
+      "- Respond ONLY with bullet points, one per line, each starting with \"- \".\n" +
+      "- Do NOT include any headings or phrases like \"Here is a summary\".\n" +
+      "- Write EXACTLY 3 bullet points.\n" +
+      "- Each bullet should capture a different major idea or takeaway.\n" +
+      "- It is OK if the summary is longer than the original text.\n" +
+      "- Always end with a complete sentence; do not stop mid‑phrase.";
 
     const result = await geminiClient.generateContent({
       contents: [
@@ -269,8 +271,9 @@ app.post("/summarize", async (req, res) => {
         },
       ],
       generationConfig: {
-        maxOutputTokens: 256,
-        temperature: 0.4,
+        // Give the model plenty of room; rely on instructions rather than a tight token cap.
+        maxOutputTokens: 4096,
+        temperature: 0.3,
       },
     });
 
@@ -383,7 +386,7 @@ app.post("/chat", async (req, res) => {
     const result = await geminiClient.generateContent({
       contents,
       generationConfig: {
-        maxOutputTokens: 256,
+        maxOutputTokens: 4096,
         temperature: 0.4,
       },
     });

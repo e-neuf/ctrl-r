@@ -653,6 +653,7 @@
 
 .ctrlr-summaryText {
   margin: 0;
+  white-space: pre-wrap;
 }
 
 .ctrlr-summaryPlaceholder {
