@@ -21,41 +21,27 @@ export const File_Labels = {
 
 
 
-    ///widak
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    ///widad
+    jfif: "JPEG File Interchange Format (.jfif)",
+    jpg: "JPEG Image (.jpg)",
+    jpeg: "JPEG Image (.jpeg)",
+    png: "Portable Network Graphics (.png)",
+    key: "Apple Keynote Presentation (.key)",
+    pages: "Apple Pages Document (.pages)",
+    numbers: "Apple Numbers Spreadsheet (.numbers)",
+    log: "Log File (.log)",
+    md: "Markdown Document (.md)",
+    msg: "Outlook Email Message (.msg)",
+    mobi: "Mobipocket eBook (.mobi)",
+    odc: "OpenDocument Chart (.odc)",
+    odf: "OpenDocument Formula (.odf)",
+    odg: "OpenDocument Graphics (.odg)",
+    odp: "OpenDocument Presentation (.odp)",
+    ods: "OpenDocument Spreadsheet (.ods)",
+    odt: "OpenDocument Text (.odt)",
+    potx: "PowerPoint Template (.potx)",
+    pps: "PowerPoint Slideshow (.pps)",
+    ppsx: "PowerPoint Slideshow (.ppsx)",
 
     //manjari
     ppt: "PowerPoint Presentation (.ppt)",
